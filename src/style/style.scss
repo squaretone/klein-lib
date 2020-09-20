@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #888;
+  h1 {
+    @apply text-4xl;
+  }
+}
