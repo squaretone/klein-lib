@@ -8,6 +8,7 @@ export let defaultAppState = {
   library: [],
   libLoaded: false,
   isLoading: false,
+  menuOpen: false,
   libURL: libURL,
 }
 
@@ -53,11 +54,13 @@ export const stateReducer = (state, action) => {
   );
   switch (action.type) {
     case 'set-filters':
-      return { ...state, misc: 'none...'}
+      return { ...state, misc: 'none...' };
+    case 'toggle-menu':
+      return { ...state, menuOpen: !state.menuOpen };
     case 'update-library':
-      console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action)
+      console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action);
       return { ...state, library: action.library };
     default:
-      return state
+      return state;
   }
 }

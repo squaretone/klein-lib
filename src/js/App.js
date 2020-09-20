@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import Header from './comp/Header'
 import { useAppStateContext, load_library } from './state'
 import LibraryList from './comp/LibraryList'
+import Filters from './comp/Filters'
 
 const App = () => {
   const [state, dispatch] = useAppStateContext()
@@ -23,6 +24,7 @@ const App = () => {
   return (
     <div>
       <Header />
+      <Filters />
       <div>
         <LibraryList />
       </div>
