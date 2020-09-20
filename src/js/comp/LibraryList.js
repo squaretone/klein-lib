@@ -13,8 +13,9 @@ const LibraryList = () => {
   return (
     <div className="library-list">
      {library.map((book, index) => {
+       const bookClasses = (index % 2 === 0) ? 'even' : 'odd'
        return (
-         <Book key={`book_${index}`} {...book} />
+         <Book key={`book_${index}`} {...book} className={bookClasses} />
        )
      })}
     </div>

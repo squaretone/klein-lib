@@ -8,3 +8,26 @@ body {
     @apply text-4xl;
   }
 }
+
+.book {
+  @apply border-t;
+  @apply text-teal-800;
+
+  h4 {
+    position: relative;
+    line-height: 2rem;
+  }
+
+  &.odd {
+    @apply bg-gray-100;
+  }
+
+  &.even {
+    @apply bg-gray-200;
+  }
+
+  .details {
+    @apply hidden;
+    @apply text-xs;
+  }
+}
