@@ -1,7 +1,40 @@
+// require('dotenv').config()
 import React, { createContext, useContext, useReducer } from 'react'
 
+let libURL = process.env.LIBRARY_JSON_URL
+
 export let defaultAppState = {
-  siteName: 'Klein Library'
+  siteName: 'Klein Library',
+  library: [],
+  libLoaded: false,
+  isLoading: false,
+  libURL: libURL,
+}
+
+const format_google_json = (googleJSON) => {
+  let results =[]
+  results = googleJSON.feed.entry.map((book) => {
+    let data = {}
+    data.updated = book.title.$t
+    data.author = book.gsx$author.$t
+    data.title = book.gsx$title.$t
+    return data
+  })
+  return results
+}
+
+export const load_library = async (libURL) => {
+  try {
+    const response = await fetch(libURL)
+    const responseJSON = await response.json()
+    console.log('r', responseJSON)
+    let formatted = format_google_json(responseJSON);
+    return formatted
+
+  } catch (err) {
+    console.log(`Error fetching ${libURL}`, err)
+    return false
+  }
 }
 
 export const AppStateContext = createContext(defaultAppState)
@@ -21,6 +54,9 @@ export const stateReducer = (state, action) => {
   switch (action.type) {
     case 'set-filters':
       return { ...state, misc: 'none...'}
+    case 'update-library':
+      console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action)
+      return { ...state, library: action.library };
     default:
       return state
   }

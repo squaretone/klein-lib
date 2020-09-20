@@ -12,6 +12,7 @@
     "build": "parcel build ./src/index.html"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

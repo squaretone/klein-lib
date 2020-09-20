@@ -6,6 +6,7 @@ const Header = () => {
   return (
     <header>
       <h1 className="site-name">{state.siteName}</h1>
+      <small>{state.libURL}</small>
     </header>
   );
 };
