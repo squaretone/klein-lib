@@ -1,4 +1,3 @@
-// require('dotenv').config()
 import React, { createContext, useContext, useReducer } from 'react'
 import _ from 'lodash'
 
@@ -11,7 +10,7 @@ export let defaultAppState = {
   errors: [],
   libLoaded: false,
   isLoading: false,
-  menuOpen: true,
+  menuOpen: false,
   filters: {
     direction: 'asc',
     text: '',
@@ -36,7 +35,6 @@ export const load_library = async (libURL) => {
   try {
     const response = await fetch(libURL)
     const responseJSON = await response.json()
-    console.log('r', responseJSON)
     let formatted = format_google_json(responseJSON);
     return formatted
 
@@ -48,7 +46,7 @@ export const load_library = async (libURL) => {
 
 export const AppStateContext = createContext(defaultAppState)
 
-export const AppStateProvider = ({ reducer, initialState, children }) => (
+export const AppStateProvider = ({ reducer, children }) => (
   <AppStateContext.Provider value={useReducer(reducer, defaultAppState)}>
     {children}
   </AppStateContext.Provider>
@@ -57,8 +55,6 @@ export const AppStateProvider = ({ reducer, initialState, children }) => (
 export const useAppStateContext = () => useContext(AppStateContext)
 
 const filter_results = (library, filters) => {
-  // console.log('filters.sortBy', filters.sortBy)
-  // let sorted = _.sortBy(library, [filters.sortBy])
   let sorted = _.sortBy(library, (val) => {
     let key = filters.sortBy
 
@@ -84,13 +80,23 @@ const filter_results = (library, filters) => {
       return simplified
     }
   })
+
+  if (filters.text && filters.text.length > 0) {
+    sorted = sorted.filter(book => {
+      let author = book.author.trim().toLowerCase()
+      let title = book.title.trim().toLowerCase()
+      let search = filters.text.trim().toLowerCase()
+      if (_.includes(author, search)) return true
+      if (_.includes(title, search)) return true
+      return false
+    })
+  }
+
   return sorted
 }
 
 export const stateReducer = (state, action) => {
-  console.log(
-    `%cSTATE.action.type: ${action.type}`, 'color: blue;'
-  );
+  // console.log(`%cSTATE.action.type: ${action.type}`, 'color: blue;')
 
   switch (action.type) {
     case 'filter-text':
