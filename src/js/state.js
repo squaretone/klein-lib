@@ -6,6 +6,7 @@ let libURL = process.env.LIBRARY_JSON_URL
 export let defaultAppState = {
   siteName: 'Klein Library',
   library: [],
+  errors: [],
   libLoaded: false,
   isLoading: false,
   menuOpen: false,
@@ -53,6 +54,8 @@ export const stateReducer = (state, action) => {
     `%cSTATE.action.type: ${action.type}`, 'color: blue;'
   );
   switch (action.type) {
+    case 'error-add':
+      return { ...state, errors: [...state.errors, action.error]};
     case 'set-filters':
       return { ...state, misc: 'none...' };
     case 'toggle-menu':
@@ -61,6 +64,7 @@ export const stateReducer = (state, action) => {
       console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action);
       return { ...state, library: action.library };
     default:
+      console.log('%c Unhandled reducer action', 'color: orange;', action)
       return state;
   }
 }
