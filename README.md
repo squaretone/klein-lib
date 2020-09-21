@@ -13,3 +13,4 @@ Hosted on [Netlify](https://www.netlify.com/) at [https://klein-library.netlify.
   - total authors
 - Add date added
 - Add sort by date back in
+- Persist filters to local storage
