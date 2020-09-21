@@ -29,7 +29,7 @@ const Filters = () => {
   }
   
   const filterClasses = state.menuOpen ? 'visible' : 'hidden'
-  const sortIcon = state.filters.direction === 'asc' ? <SortUpIcon /> : <SortDownIcon />
+  const sortIcon = state.filters.direction === 'desc' ? <SortUpIcon /> : <SortDownIcon />
   
   return (
     <div className={`filters ${filterClasses}`}>
