@@ -13,7 +13,9 @@ const Header = () => {
   
   return (
     <header className='flex bg-teal-600 text-teal-100 font-light tracking-widest'>
-      <h1 className='site-name p-2 px-4 flex-1'>{state.siteName}</h1>
+      <h1 className='site-name p-2 px-4 flex-1 flex'>
+        {state.siteName}
+      </h1>
       <div className="p-3">
         <button onClick={toggleMenu}>
           {Icon}

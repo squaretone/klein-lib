@@ -40,13 +40,15 @@ const Filters = () => {
             <div className="pt-1">
               <SearchIcon />
             </div>
-            <input 
-              value={state.filters.text} 
-              onChange={onTextFilterChangeHandler}
-              name="search" 
-              placeholder="Search..." 
-              className="rounded ml-3 flex-1 px-4 py-2 text-teal-800 text-2xl" 
-              />
+            <div className="flex-1 pl-2">
+              <input 
+                value={state.filters.text} 
+                onChange={onTextFilterChangeHandler}
+                name="search" 
+                placeholder="Search..." 
+                className="rounded pl-4 py-2 text-teal-800 text-2xl" 
+                />
+            </div>
           </label>
         </div>
 
@@ -57,7 +59,7 @@ const Filters = () => {
             </button>
           </label>
 
-          <label className="flex-1 flex pl-3">
+          <label className="flex-1 flex pl-2">
             <select value={state.filters.sortBy} onChange={sortByChangeHandler} className="flex-1 text-2xl text-teal-800 px-2 py-1 rounded">
               <option value="author">Sort by author</option>
               <option value="title">Sort by title</option>

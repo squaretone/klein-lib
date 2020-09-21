@@ -92,6 +92,10 @@ const filter_results = (library, filters) => {
     })
   }
 
+  if (filters.direction === 'desc') {
+    sorted.reverse()
+  }
+
   return sorted
 }
 
