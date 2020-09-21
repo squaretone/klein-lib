@@ -10,14 +10,14 @@ const App = () => {
   useEffect(() => {
     (async () => {
       if (state.libURL) {
-        console.log(`Loading: ${state.libURL}`);
+        // console.log(`Loading: ${state.libURL}`);
         let libJSON = await load_library(state.libURL);
         dispatch({
           type: 'update-library',
           library: libJSON
         })
       } else {
-        console.log('%cSkip load JSON', 'color: gray;')
+        console.log('%cSkip load JSON', 'color: orange;')
         dispatch({type: 'error-add', error: 'Could not find data URL'})
       }
     })()

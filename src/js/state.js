@@ -57,8 +57,33 @@ export const AppStateProvider = ({ reducer, initialState, children }) => (
 export const useAppStateContext = () => useContext(AppStateContext)
 
 const filter_results = (library, filters) => {
-  console.log('filters.sortBy', filters.sortBy)
-  let sorted = _.sortBy(library, [filters.sortBy])
+  // console.log('filters.sortBy', filters.sortBy)
+  // let sorted = _.sortBy(library, [filters.sortBy])
+  let sorted = _.sortBy(library, (val) => {
+    let key = filters.sortBy
+
+    if (key === 'author') {
+      return val[key].trim()
+    }
+
+    if (key === 'title') {
+      let simplified = val[key].toLowerCase()
+
+      if (simplified.startsWith('the ')) {
+        return simplified.replace('the ', '')
+      }
+
+      if (simplified.startsWith('an ')) {
+        return simplified.replace('an ', '')
+      }
+      
+      if (simplified.startsWith('a ')) {
+        return simplified.replace('a ', '')
+      }
+
+      return simplified
+    }
+  })
   return sorted
 }
 
@@ -66,7 +91,7 @@ export const stateReducer = (state, action) => {
   console.log(
     `%cSTATE.action.type: ${action.type}`, 'color: blue;'
   );
-  
+
   switch (action.type) {
     case 'filter-text':
       let filtersUpdatedText = {...state.filters, text: action.value}
@@ -91,7 +116,7 @@ export const stateReducer = (state, action) => {
       return { ...state, menuOpen: !state.menuOpen }
 
     case 'update-library':
-      console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action)
+      // console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action)
       return { ...state, library: action.library, results: filter_results(action.library, state.filters)}
 
     default:
