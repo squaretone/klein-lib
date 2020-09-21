@@ -9,7 +9,12 @@ export let defaultAppState = {
   errors: [],
   libLoaded: false,
   isLoading: false,
-  menuOpen: false,
+  menuOpen: true,
+  filters: {
+    direction: 'asc',
+    text: '',
+    sortBy: 'author'
+  },
   libURL: libURL,
 }
 
@@ -54,6 +59,14 @@ export const stateReducer = (state, action) => {
     `%cSTATE.action.type: ${action.type}`, 'color: blue;'
   );
   switch (action.type) {
+    case 'filter-text':
+      return { ...state, filters: {...state.filters, text: action.value}}
+    case 'filter-toggle-direction':
+      let newDirection = (state.filters.direction === 'asc') ? 'desc' : 'asc'
+      return { ...state, filters: {...state.filters, direction: newDirection}}
+    case 'filter-sort-by':
+      let filters = {...state.filters, sortBy: action.value}
+      return { ...state, filters: filters}
     case 'error-add':
       return { ...state, errors: [...state.errors, action.error]};
     case 'set-filters':
