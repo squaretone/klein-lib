@@ -61,7 +61,7 @@ const Filters = () => {
             <select value={state.filters.sortBy} onChange={sortByChangeHandler} className="flex-1 text-2xl text-teal-800 px-2 py-1 rounded">
               <option value="author">Sort by author</option>
               <option value="title">Sort by title</option>
-              <option value="added">Sort by added</option>
+              {/* <option value="added">Sort by added</option> */}
             </select>
           </label>
           

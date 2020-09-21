@@ -1,11 +1,13 @@
 // require('dotenv').config()
 import React, { createContext, useContext, useReducer } from 'react'
+import _ from 'lodash'
 
 let libURL = process.env.LIBRARY_JSON_URL
 
 export let defaultAppState = {
   siteName: 'Klein Library',
   library: [],
+  results: [],
   errors: [],
   libLoaded: false,
   isLoading: false,
@@ -54,30 +56,46 @@ export const AppStateProvider = ({ reducer, initialState, children }) => (
 
 export const useAppStateContext = () => useContext(AppStateContext)
 
+const filter_results = (library, filters) => {
+  console.log('filters.sortBy', filters.sortBy)
+  let sorted = _.sortBy(library, [filters.sortBy])
+  return sorted
+}
+
 export const stateReducer = (state, action) => {
   console.log(
     `%cSTATE.action.type: ${action.type}`, 'color: blue;'
   );
+  
   switch (action.type) {
     case 'filter-text':
-      return { ...state, filters: {...state.filters, text: action.value}}
+      let filtersUpdatedText = {...state.filters, text: action.value}
+      return { ...state, filters: filtersUpdatedText, results: filter_results(state.library, filtersUpdatedText)}
+
     case 'filter-toggle-direction':
       let newDirection = (state.filters.direction === 'asc') ? 'desc' : 'asc'
-      return { ...state, filters: {...state.filters, direction: newDirection}}
+      let filtersUpdatedDirection = {...state.filters, direction: newDirection}
+      return { ...state, filters: filtersUpdatedDirection, results: filter_results(state.library, filtersUpdatedDirection)}
+
     case 'filter-sort-by':
-      let filters = {...state.filters, sortBy: action.value}
-      return { ...state, filters: filters}
+      let filtersUpdatedSortBy = {...state.filters, sortBy: action.value}
+      return { ...state, filters: filtersUpdatedSortBy, results: filter_results(state.library, filtersUpdatedSortBy)}
+
     case 'error-add':
-      return { ...state, errors: [...state.errors, action.error]};
+      return { ...state, errors: [...state.errors, action.error]}
+
     case 'set-filters':
-      return { ...state, misc: 'none...' };
+      return { ...state, misc: 'none...' }
+
     case 'toggle-menu':
-      return { ...state, menuOpen: !state.menuOpen };
+      return { ...state, menuOpen: !state.menuOpen }
+
     case 'update-library':
-      console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action);
-      return { ...state, library: action.library };
+      console.log(`%cUPDATE-LIBRARY`, 'color: orange;', action)
+      return { ...state, library: action.library, results: filter_results(action.library, state.filters)}
+
     default:
       console.log('%c Unhandled reducer action', 'color: orange;', action)
-      return state;
+      return state
   }
 }
