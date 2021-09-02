@@ -21,11 +21,12 @@ export let defaultAppState = {
 
 const format_google_json = (googleJSON) => {
   let results =[]
-  results = googleJSON.feed.entry.map((book) => {
+  const table = googleJSON.table
+  results = table.rows.map((book) => {
     let data = {}
-    data.updated = book.title.$t
-    data.author = book.gsx$author.$t
-    data.title = book.gsx$title.$t
+    data.updated = book.c[0].f;
+    data.title = book.c[1].v;
+    data.author = book.c[2].v;
     return data
   })
   return results
@@ -33,11 +34,13 @@ const format_google_json = (googleJSON) => {
 
 export const load_library = async (libURL) => {
   try {
+    // Use new method for pulling JSON from Google Sheets
     const response = await fetch(libURL)
-    const responseJSON = await response.json()
-    let formatted = format_google_json(responseJSON);
+    const responseTxtRaw = await response.text()
+    const responseTxt = responseTxtRaw.substr(47).slice(0, -2)
+    const responseJSON = await JSON.parse(responseTxt)
+    const formatted = format_google_json(responseJSON)
     return formatted
-
   } catch (err) {
     console.log(`Error fetching ${libURL}`, err)
     return false
