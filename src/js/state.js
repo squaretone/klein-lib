@@ -62,11 +62,11 @@ const filter_results = (library, filters) => {
     let key = filters.sortBy
 
     if (key === 'author') {
-      return val[key].trim()
+      return val[key].trim().toLowerCase()
     }
 
     if (key === 'title') {
-      let simplified = val[key].toLowerCase()
+      let simplified = val[key].trim().toLowerCase()
 
       if (simplified.startsWith('the ')) {
         return simplified.replace('the ', '')
