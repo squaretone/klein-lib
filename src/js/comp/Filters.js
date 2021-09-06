@@ -46,7 +46,7 @@ const Filters = () => {
                 onChange={onTextFilterChangeHandler}
                 name="search" 
                 placeholder="Search..." 
-                className="rounded pl-4 py-2 text-teal-800 text-2xl" 
+                className="rounded pl-4 py-2 text-teal-800 text-2xl w-full" 
                 />
             </div>
           </label>
